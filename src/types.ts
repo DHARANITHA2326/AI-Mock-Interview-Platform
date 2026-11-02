@@ -1,257 +1,297 @@
 /**
- * Shared Type Definitions for the AI Mock Interview Platform
+ * Core type declarations for the AI Mock Interview Platform
  */
 
-export enum Role {
-  USER = 'user',
-  ADMIN = 'admin'
-}
-
-export enum InterviewType {
-  TECHNICAL = 'technical',
-  HR = 'hr',
-  BEHAVIORAL = 'behavioral',
-  MANAGERIAL = 'managerial',
-  CODING = 'coding',
-  MIXED = 'mixed'
-}
-
-export enum Difficulty {
-  EASY = 'easy',
-  MEDIUM = 'medium',
-  HARD = 'hard'
-}
-
-export interface User {
+export interface UserProfile {
   id: string;
   email: string;
   name: string;
-  role: Role;
-  college?: string;
-  department?: string;
+  role?: 'student' | 'teacher';
   registerNumber?: string;
+  department?: string;
   year?: string;
+  staffId?: string;
+  experienceLevel: string;
   skills: string[];
-  resumeUrl?: string;
-  targetCompanies: string[];
-  experienceLevel: string; // e.g., 'intern', 'entry', 'mid', 'senior'
-  xp: number;
   streak: number;
-  badges: string[];
-  createdAt: string;
+  lastActive: string;
+  avatarUrl?: string;
+  avatar?: string;
+  targetRole?: string;
+  targetCompany?: string;
+  preferredSubject?: string;
+  bio?: string;
+  isAdmin?: boolean;
 }
 
-export interface Interview {
-  id: string;
-  userId: string;
+export interface VoiceSettings {
+  voiceURI: string;
+  voiceName: string;
+  lang: string;
+  pitch: number;
+  rate: number;
+  volume: number;
+}
+
+export interface Project {
+  title: string;
+  technologies: string[];
+  description: string;
+}
+
+export interface Education {
+  degree: string;
+  institution: string;
+  year?: string;
+}
+
+export interface Internship {
+  role: string;
   company: string;
-  jobRole: string;
-  department: string;
-  experience: string;
-  difficulty: Difficulty;
-  interviewType: InterviewType;
-  questionCount: number;
+  duration?: string;
+}
+
+export interface ResumeAnalysis {
+  userId: string;
+  fileName: string;
+  uploadedAt: string;
   skills: string[];
-  duration: number; // in minutes
-  score?: number;
-  status: 'pending' | 'completed';
-  createdAt: string;
-  // Final report details (if status is completed)
-  feedbackReport?: FinalFeedbackReport;
-  behavioralMetrics?: any;
+  projects: Project[];
+  education: Education[];
+  internships: Internship[];
+  technologies: string[];
+  strengths: string[];
+  weakAreas: string[];
+  suggestedRoles: string[];
+}
+
+export interface Evaluation {
+  score: number;
+  technicalAccuracy: number;
+  communication: number | null; // null if candidate answered via text
+  confidence: number;
+  completeness: number;
+  problemSolving: number;
+  mistakes: string[];
+  suggestions: string[];
+  idealAnswer: string;
+  strengths?: string[];
+  weaknesses?: string[];
+  missingPoints?: string[];
+  nextQuestion?: string;
+  answerMethod?: 'voice' | 'text';
+  communicationNote?: string;
+  codeQualityRating?: number;
+  passedTestsNote?: string;
+}
+
+export interface TestCase {
+  id: number;
+  input: string;
+  expectedOutput: string;
+  description?: string;
+  isHidden?: boolean;
+}
+
+export interface TestCaseDetail {
+  id: number;
+  input: string;
+  expected: string;
+  actual: string;
+  passed: boolean;
+  error?: string;
 }
 
 export interface Question {
   id: string;
-  interviewId: string;
   text: string;
-  type: string; // 'technical' | 'hr' | 'behavioral' | 'coding' | etc.
-  order: number;
-  correctAnswer?: string; // or expected response outline
-  expectedComplexity?: string; // for coding questions
-  initialCode?: string; // for coding questions
+  type: string; // e.g. Technical, Behavioral, System Design, Coding
+  difficulty: string; // Basics, Easy, Medium, Hard
+  category: string;
+  subject?: string;
+  functionName?: string;
+  codingTemplate?: string; // Standard syntax boilerplate for coding questions
+  starterTemplates?: { [lang: string]: string };
+  expectedOutput?: string;
+  testCases?: TestCase[];
+  testResults?: {
+    passed: number;
+    total: number;
+    percentage: number;
+    details: TestCaseDetail[];
+  };
+  candidateAnswer?: string;
+  candidateCode?: string;
+  selectedLanguage?: string;
+  answerMethod?: 'voice' | 'text';
+  audioRecordingUrl?: string;
+  audioBlobDurationSec?: number;
+  evaluation?: Evaluation;
 }
 
-export interface Answer {
-  id: string;
-  interviewId: string;
-  questionId: string;
-  userId: string;
-  text: string;
-  audioUrl?: string;
-  score?: number; // 0 to 100
-  feedback?: string;
-  analysis?: LiveAnswerEvaluation;
-  codeSolution?: string; // for coding
-  createdAt: string;
+export interface RoadmapStep {
+  phase: string;
+  topic: string;
+  actionSteps: string[];
 }
 
-export interface LiveAnswerEvaluation {
-  correctness: number;
-  communication: number;
-  grammar: number;
-  confidence: number;
-  fluency: number;
-  technicalDepth: number;
-  problemSolving: number;
-  softSkills: number;
-  justification: string;
+export interface Feedback {
+  summary: string;
+  strongTopics: string[];
+  weakTopics: string[];
+  resumeImprovements: string[];
+  improvementRoadmap: RoadmapStep[];
 }
 
-export interface FinalFeedbackReport {
+export interface BiometricSummary {
+  cameraUsed: boolean;
+  isVirtual: boolean;
+  facePresencePct: number;
+  eyeContactPct: number;
+  lightingQuality: string;
+  lightingScore: number;
+  posturePoise: string;
+  postureScore: number;
+  motionLevel: string;
+  confidenceIndex: number;
+  totalFramesAnalyzed: number;
+  candidateDemeanorReview: string;
+}
+
+export interface InterviewReport {
   overallScore: number;
-  technicalScore: number;
-  communicationScore: number;
-  grammarScore: number;
-  confidenceScore: number;
-  problemSolvingScore: number;
-  leadershipScore: number;
-  behaviorScore: number;
-  codingScore?: number;
+  technicalRating: number;
+  communicationRating: number | null; // null if answered purely via text
+  communicationEvaluated: boolean;
+  communicationNote?: string;
+  confidenceRating: number;
   strengths: string[];
   weaknesses: string[];
-  improvementSuggestions: string[];
-  recommendedCourses: string[];
-  recommendedYouTubeVideos: string[];
-  recommendedPracticeProblems: string[];
-  nextInterviewSuggestions: string;
-  aiSummary: string;
-  hiringProbabilityScore: number; // 0 to 100
-  behavioralAnalysis: string;
-  roadmap: string[]; // AI Career Roadmap
-  videoBehaviorReport?: {
-    eyeContactScore: number;
-    attentionScore: number;
-    faceVisibilityScore: number;
-    confidenceLevel: number;
-    professionalismScore: number;
-    aiSuggestions: string[];
-  };
+  recommendedTopics: string[];
+  overallFeedback: string;
+  hiringRecommendation: string;
 }
 
-export interface ResumeAnalysis {
+export interface InterviewSession {
   id: string;
   userId: string;
-  fileName: string;
-  extractedText: string;
-  atsScore: number;
-  grammarScore: number;
-  formattingScore: number;
-  skillsFound: string[];
-  missingSkills: string[];
-  projectsAnalysis: string;
-  experienceAnalysis: string;
-  keywordAnalysis: string[];
-  weakSections: string[];
-  strongSections: string[];
-  improvementSuggestions: string[];
-  recommendedKeywords: string[];
-  recommendedCertifications: string[];
-  recommendedProjects: string[];
+  candidateName?: string;
+  registerNumber?: string;
+  studentDepartment?: string;
+  studentYear?: string;
+  interviewType: string;
+  difficulty: string;
+  experienceLevel: string;
+  company: string;
+  status: 'active' | 'completed' | 'terminated_violation';
   createdAt: string;
+  questions: Question[];
+  overallScore?: number;
+  feedback?: Feedback;
+  role?: string;
+  timePerQuestion?: string;
+  subject?: string;
+  report?: InterviewReport;
+  biometricsSummary?: BiometricSummary;
+  terminationReason?: string;
+  integrityReport?: IntegrityReport;
+}
 
-  // New detailed scores
-  keywordMatchScore?: number;
-  professionalismScore?: number;
-  technicalSkillsScore?: number;
-  projectsScore?: number;
-  workExperienceScore?: number;
-  educationScore?: number;
-  achievementsScore?: number;
-  communicationScore?: number;
-  recruiterReadinessScore?: number;
-
-  // Detailed metrics arrays
-  strengths?: string[];
-  detailedWeaknesses?: {
-    problem: string;
-    whyProblem: string;
-    suggestion: string;
-    exampleBefore: string;
-    exampleAfter: string;
-  }[];
-  evaluatedSections?: {
-    sectionName: string;
-    score: number;
-    feedback: string;
-    suggestions: string;
-  }[];
-  recommendedSkills?: string[];
-  missingKeywords?: string[];
-  repeatedKeywords?: string[];
-  lowImpactWords?: string[];
-  actionVerbs?: string[];
-  grammarErrors?: string[];
-  spellingMistakes?: string[];
-  sentenceImprovements?: string[];
-  passiveVoiceCount?: number;
-  longSentencesCount?: number;
-  evaluatedProjects?: {
-    name: string;
-    innovation: string;
-    complexity: string;
-    impact: string;
-    technologies: string[];
-    recruiterImpression: string;
-    suggestions: string;
-  }[];
+export interface DashboardStats {
+  highestScore: number;
+  averageScore: number;
+  interviewsCompleted: number;
+  streak: number;
+  weakestSkills: string[];
+  bestSkills: string[];
+  recentTrends: { date: string; score: number }[];
 }
 
 export interface LeaderboardEntry {
-  userId: string;
-  userName: string;
-  college?: string;
-  department?: string;
-  xp: number;
-  streak: number;
-  badgesCount: number;
+  rank: number;
+  name: string;
+  experienceLevel: string;
   averageScore: number;
-  rank?: number;
-
-  // New Interview Performance Leaderboard Fields
-  totalInterviews: number;
-  highestScore: number;
-  technicalScore: number;
-  communicationScore: number;
-  confidenceScore: number;
-  eyeContactScore: number;
-  improvementPercentage: number;
-  lastInterviewDate: string;
-  
-  resumeScore?: number;
-  grammarScore?: number;
-  overallScore?: number;
+  interviewsCount: number;
+  streak: number;
 }
 
-export interface Achievement {
+export interface DailyChallenge {
   id: string;
-  userId: string;
-  badge: string; // 'beginner' | 'learner' | 'master' | 'expert' | etc.
-  title: string;
-  description: string;
-  unlockedAt: string;
+  question: string;
+  category: string;
+  points: number;
+  solved: boolean;
 }
 
-export interface SystemNotification {
+// ==========================================
+// AI-Based Interview Proctoring & Malpractice Detection Types
+// ==========================================
+
+export type ProctoringEventType = 
+  | 'no_face'
+  | 'multiple_faces'
+  | 'gaze_away'
+  | 'candidate_left'
+  | 'camera_interrupted'
+  | 'prohibited_device';
+
+export type ProctoringSeverity = 'low' | 'medium' | 'high' | 'critical';
+
+export interface ProctoringEvent {
   id: string;
-  userId: string;
-  title: string;
-  message: string;
-  type: 'reminder' | 'achievement' | 'leaderboard' | 'system';
-  read: boolean;
-  createdAt: string;
+  sessionId: string;
+  eventType: ProctoringEventType;
+  timestamp: string;
+  durationSeconds: number;
+  severity: ProctoringSeverity;
+  confidence: number; // 0.0 - 1.0
+  details: string;
+  deviceType?: string; // 'cell phone' | 'laptop' | 'book' | etc.
+  isFalsePositive?: boolean;
+  reviewedBy?: string;
+  reviewerNotes?: string;
 }
 
-export interface Settings {
+export interface ProctoringPolicy {
+  maxWarnings: number; // e.g. 3
+  noFaceThresholdSec: number; // e.g. 4
+  gazeAwayThresholdSec: number; // e.g. 3.5
+  deviceConfidenceThreshold: number; // e.g. 0.65
+  deviceConsecutiveDetections: number; // e.g. 2 consecutive samples
+  autoTerminateOnCritical: boolean;
+  penalties: {
+    no_face: number;
+    multiple_faces: number;
+    gaze_away: number;
+    candidate_left: number;
+    camera_interrupted: number;
+    prohibited_device: number;
+  };
+}
+
+export interface IntegrityReport {
+  id: string;
+  sessionId: string;
   userId: string;
-  theme: 'dark' | 'light';
-  emailNotifications: boolean;
-  pushNotifications: boolean;
-  language: string;
-  voiceName: string; // 'Kore' | 'Zephyr' | 'Puck' | 'Charon' | 'Fenrir'
-  aiSpeed: number; // 0.5 to 2.0
-  privacyProfile: 'public' | 'private';
-  speechTone?: string;
-  cameraPreference?: string;
-  microphonePreference?: string;
+  candidateName: string;
+  startTime: string;
+  endTime: string;
+  monitoringDurationSec: number;
+  status: 'completed' | 'terminated_violation';
+  terminationReason?: string;
+  totalWarnings: number;
+  integrityScore: number; // 0 - 100
+  integrityTier: 'High' | 'Generally Consistent' | 'Requires Review' | 'Significant Concerns';
+  eventCounts: {
+    noFace: number;
+    multipleFaces: number;
+    gazeAway: number;
+    prohibitedDevice: number;
+    cameraInterrupted: number;
+  };
+  violations: ProctoringEvent[];
+  disclaimer: string;
+  reviewedBy?: string;
+  reviewedAt?: string;
 }

@@ -1,10 +1,10 @@
 import { Request, Response } from "express";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { UserModel } from "../models/User";
-import { dbStore } from "../models/store";
-import { isMongoConnected } from "../services/db";
-import { UserProfile } from "../../src/types";
+import { UserModel } from "../models/User.js";
+import { dbStore } from "../models/store.js";
+import { isMongoConnected } from "../services/db.js";
+import { UserProfile } from "../../src/types.js";
 
 // Helper to validate email format
 const isValidEmail = (email: string): boolean => {

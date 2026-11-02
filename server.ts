@@ -3,7 +3,7 @@ import path from "path";
 import fs from "fs";
 import dotenv from "dotenv";
 import { createServer as createViteServer } from "vite";
-import app from "./server/app";
+import app from "./server/app.js";
 
 // Initialize environment variables
 dotenv.config();

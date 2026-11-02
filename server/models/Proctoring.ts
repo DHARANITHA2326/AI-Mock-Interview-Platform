@@ -1,5 +1,5 @@
 import mongoose, { Schema, Document } from "mongoose";
-import { ProctoringEvent, IntegrityReport, ProctoringPolicy } from "../../src/types";
+import { ProctoringEvent, IntegrityReport, ProctoringPolicy } from "../../src/types.js";
 
 export interface IProctoringEventDocument extends Document, Omit<ProctoringEvent, "id"> {
   id: string;

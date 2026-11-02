@@ -1,11 +1,11 @@
 import { GoogleGenAI } from "@google/genai";
-import { SYSTEM_PROMPTS, SCHEMAS } from "../prompts/templates";
-import * as resumeAnalysisPrompt from "../prompts/resumeAnalysisPrompt";
-import * as questionGenerationPrompt from "../prompts/questionGenerationPrompt";
-import * as answerEvaluationPrompt from "../prompts/answerEvaluationPrompt";
-import * as finalReportPrompt from "../prompts/finalReportPrompt";
-import * as improvementSuggestionPrompt from "../prompts/improvementSuggestionPrompt";
-import { CODING_QUESTIONS_BANK, getShuffledCodingQuestions } from "../data/codingQuestions";
+import { SYSTEM_PROMPTS, SCHEMAS } from "../prompts/templates.js";
+import * as resumeAnalysisPrompt from "../prompts/resumeAnalysisPrompt.js";
+import * as questionGenerationPrompt from "../prompts/questionGenerationPrompt.js";
+import * as answerEvaluationPrompt from "../prompts/answerEvaluationPrompt.js";
+import * as finalReportPrompt from "../prompts/finalReportPrompt.js";
+import * as improvementSuggestionPrompt from "../prompts/improvementSuggestionPrompt.js";
+import { CODING_QUESTIONS_BANK, getShuffledCodingQuestions } from "../data/codingQuestions.js";
 
 let aiClient: GoogleGenAI | null = null;
 

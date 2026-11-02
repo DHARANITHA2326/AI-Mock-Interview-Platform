@@ -1,7 +1,7 @@
 import express, { ErrorRequestHandler } from "express";
 import { MulterError } from "multer";
-import apiRouter from "./routes/api";
-import { connectDB } from "./services/db";
+import apiRouter from "./routes/api.js";
+import { connectDB } from "./services/db.js";
 
 const app = express();
 let databaseConnection: Promise<boolean> | undefined;

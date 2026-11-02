@@ -1,5 +1,5 @@
-import { ResumeAnalysis, InterviewSession, UserProfile, ProctoringEvent, IntegrityReport, ProctoringPolicy } from "../../src/types";
-import { defaultProctoringPolicy } from "./Proctoring";
+import { ResumeAnalysis, InterviewSession, UserProfile, ProctoringEvent, IntegrityReport, ProctoringPolicy } from "../../src/types.js";
+import { defaultProctoringPolicy } from "./Proctoring.js";
 
 // Local in-memory DB collections with pre-populated seed data for demo purposes
 class MockDatabase {

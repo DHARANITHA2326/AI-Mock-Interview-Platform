@@ -39,6 +39,19 @@ The production server serves the generated `dist` files when `NODE_ENV=productio
 npm start
 ```
 
+## Deploy to Vercel
+
+Import this repository into Vercel and use the repository root as the project
+root. The Vite build outputs the frontend to `dist`, and API requests are served
+by the Express-backed function in `api/[...path].ts`. Resume file uploads are
+limited to 4 MB to stay within Vercel's request-size limit.
+
+Set `GEMINI_API_KEY` in the Vercel project environment variables to enable
+Gemini-powered resume analysis and interview generation. Set `MONGODB_URI` for
+persistent data; without it, data is stored in the in-memory demo store and is
+not durable across serverless invocations. Set a private `JWT_SECRET` for
+deployed authentication.
+
 ## Environment variables
 
 | Variable | Required | Description |

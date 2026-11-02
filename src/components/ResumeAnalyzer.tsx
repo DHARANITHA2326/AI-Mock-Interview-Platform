@@ -62,6 +62,11 @@ export default function ResumeAnalyzer({ authToken, onContinue }: ResumeAnalyzer
   const uploadFile = async (file: File) => {
     if (!file) return;
 
+    if (file.size > 4 * 1024 * 1024) {
+      setError("Resume files must be 4 MB or smaller.");
+      return;
+    }
+
     // Check file type
     const ext = file.name.split(".").pop()?.toLowerCase();
     const validExts = ["pdf", "docx", "doc", "txt", "md"];
@@ -220,6 +225,7 @@ export default function ResumeAnalyzer({ authToken, onContinue }: ResumeAnalyzer
               <p className="text-xs text-slate-400 mt-1.5 max-w-xs leading-relaxed">
                 Accepts <strong className="text-indigo-400">PDF</strong>, <strong className="text-indigo-400">DOCX</strong>, <strong className="text-indigo-400">DOC</strong>, or <strong className="text-indigo-400">TXT</strong> files.
               </p>
+              <p className="text-[11px] text-slate-500 mt-1">Maximum file size: 4 MB</p>
               
               <button
                 type="button"

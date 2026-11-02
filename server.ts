@@ -3,34 +3,13 @@ import path from "path";
 import fs from "fs";
 import dotenv from "dotenv";
 import { createServer as createViteServer } from "vite";
-import apiRouter from "./server/routes/api";
-import { connectDB } from "./server/services/db";
+import app from "./server/app";
 
 // Initialize environment variables
 dotenv.config();
 
 async function startServer() {
-  // Connect to database (with graceful interactive in-memory fallback)
-  try {
-    await connectDB();
-  } catch (err) {
-    console.warn("Database connection warning, continuing with in-memory fallback:", err);
-  }
-
-  const app = express();
   const PORT = 3000;
-
-  // Global Middlewares
-  app.use(express.json({ limit: "50mb" }));
-  app.use(express.urlencoded({ extended: true, limit: "50mb" }));
-
-  // Mount Backend API Router
-  app.use("/api", apiRouter);
-
-  // Health check endpoint
-  app.get("/api/health", (_req, res) => {
-    res.json({ status: "healthy", timestamp: new Date().toISOString() });
-  });
 
   // Serve static assets or mount Vite in development
   if (process.env.NODE_ENV === "production" && fs.existsSync(path.join(process.cwd(), "dist"))) {
